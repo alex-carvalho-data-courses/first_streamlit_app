@@ -57,10 +57,10 @@ except URLError as e:
   streamlit.error()
 
 # query metadata from snowflake
-my_cnx = snowflake.connector.connect(**streamlit.secrets['snowflake'])
-my_data = get_fruit_load_list(my_cnx)
-streamlit.text('The fruit load contains:')
-streamlit.dataframe(my_data)
+if streamlit.button('Get Fruit Load List'):
+  my_cnx = snowflake.connector.connect(**streamlit.secrets['snowflake'])
+  my_data_rows = get_fruit_load_list(my_cnx)
+  streamlit.dataframe(my_data_rows)
 
 streamlit.stop()
 
