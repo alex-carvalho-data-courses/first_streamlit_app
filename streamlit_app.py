@@ -22,7 +22,7 @@ def get_fruit_load_list(snowflake_connection: SnowflakeConnection) -> list[dict]
 
 def insert_row_snowflake(new_fruit: str, snowflake_connection: SnowflakeConnection) -> str:
   with snowflake_connection.cursor() as my_cursor:
-    my_cursor.execute(f'insert into pc_rivery_db.public.fruit_load_list values (\'{add_my_fruit}\')')
+    my_cursor.execute(f'insert into pc_rivery_db.public.fruit_load_list values (\'{new_fruit}\')')
 
   return f'Thank you for adding {new_fruit}.'
 
