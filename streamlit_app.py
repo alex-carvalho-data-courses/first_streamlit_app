@@ -2,6 +2,7 @@ import pandas
 import requests
 import snowflake.connector
 import streamlit
+from urllib.error import URLError
 
 
 my_fruit_list = pandas.read_csv('https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt')
@@ -43,6 +44,8 @@ my_cur.execute('select * from pc_rivery_db.public.fruit_load_list')
 my_data = my_cur.fetchall()
 streamlit.text('The fruit load contains:')
 streamlit.dataframe(my_data)
+
+streamlit.stop()
 
 add_my_fruit = streamlit.text_input('What fruit would you like to add?')
 my_cur.execute(f'insert into pc_rivery_db.public.fruit_load_list values (\'{add_my_fruit}\')')
