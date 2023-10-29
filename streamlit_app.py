@@ -14,7 +14,7 @@ def get_fruityvice_data(fruit_choice: str) -> pandas.DataFrame:
   return fruityvice_normalized
 
 
-def get_fruit_load_list(snowflake_connection: SnowflakeConnection) -> list(dict):
+def get_fruit_load_list(snowflake_connection: SnowflakeConnection) -> list[dict]:
   my_cur = my_cnx.cursor()
   my_cur.execute('select * from pc_rivery_db.public.fruit_load_list')
   my_data = my_cur.fetchall()
