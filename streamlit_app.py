@@ -15,13 +15,13 @@ def get_fruityvice_data(fruit_choice: str) -> pandas.DataFrame:
 
 
 def get_fruit_load_list(snowflake_connection: SnowflakeConnection) -> list[dict]:
-  with snowflake_connection.cursor as my_cur:
+  with snowflake_connection.cursor() as my_cur:
     my_cur.execute('select * from pc_rivery_db.public.fruit_load_list')
     return my_cur.fetchall()
     
 
 def insert_row_snowflake(new_fruit: str, snowflake_connection: SnowflakeConnection) -> str:
-  with snowflake_connection.cursor () as my_cursor:
+  with snowflake_connection.cursor() as my_cursor:
     my_cursor.execute(f'insert into pc_rivery_db.public.fruit_load_list values (\'{add_my_fruit}\')')
 
   return f'Thank you for adding {new_fruit}.'
