@@ -1,8 +1,25 @@
 import pandas
 import requests
+import snowflake
 import snowflake.connector
 import streamlit
+from snowflake.connector.connection import SnowflakeConnection
 from urllib.error import URLError
+
+
+def get_fruityvice_data(fruit_choice: str) -> pandas.DataFrame:
+  fruityvice_response = requests.get(f'https://fruityvice.com/api/fruit/{fruit_choice}')
+  fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+
+  return fruityvice_normalized
+
+
+def get_fruit_load_list(snowflake_connection: SnowflakeConnection) -> list(dict):
+  my_cur = my_cnx.cursor()
+  my_cur.execute('select * from pc_rivery_db.public.fruit_load_list')
+  my_data = my_cur.fetchall()
+
+  return my_data
 
 
 my_fruit_list = pandas.read_csv('https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt')
@@ -24,13 +41,6 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 # display the table on the page
 streamlit.dataframe(fruits_to_show)
-
-
-def get_fruityvice_data(fruit_choice: str) -> pandas.DataFrame:
-  fruityvice_response = requests.get(f'https://fruityvice.com/api/fruit/{fruit_choice}')
-  fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-
-  return fruityvice_normalized
   
 
 # Section to show Fruityvice api response
@@ -48,9 +58,7 @@ except URLError as e:
 
 # query metadata from snowflake
 my_cnx = snowflake.connector.connect(**streamlit.secrets['snowflake'])
-my_cur = my_cnx.cursor()
-my_cur.execute('select * from pc_rivery_db.public.fruit_load_list')
-my_data = my_cur.fetchall()
+my_data = get_fruit_load_list(my_cnx)
 streamlit.text('The fruit load contains:')
 streamlit.dataframe(my_data)
 
