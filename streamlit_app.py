@@ -30,7 +30,7 @@ def insert_row_snowflake(new_fruit: str, snowflake_connection: SnowflakeConnecti
 my_fruit_list = pandas.read_csv('https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt')
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
-streamlit.title('My Parents new healthy dinner')
+streamlit.title('View our Fruit List - Add your Favorites!')
 
 streamlit.header('Breakfast Menu')
 streamlit.text('🥣 Omega 3 & Blueberry Oatmeal')
